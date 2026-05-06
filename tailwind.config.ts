@@ -1,0 +1,20 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: ["./src/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        ink: "#0a0a0a",
+        paper: "#fafafa",
+        accent: "#ff3366",
+      },
+      fontFamily: {
+        sans: ["system-ui", "sans-serif"],
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
