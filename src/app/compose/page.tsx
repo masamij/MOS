@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { DEMO_SPOTS } from "@/lib/demoSpots";
 
 function toLocalInput(d: Date) {
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -14,6 +15,8 @@ export default function ComposePage() {
   const [nickname, setNickname] = useState("");
   const [body, setBody] = useState("");
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [demoId, setDemoId] = useState<string>("shibuya");
+  const [useGPS, setUseGPS] = useState(false);
   const [radiusM, setRadiusM] = useState(100);
   const [startsAt, setStartsAt] = useState("");
   const [endsAt, setEndsAt] = useState("");
@@ -23,20 +26,32 @@ export default function ComposePage() {
   useEffect(() => {
     const saved = localStorage.getItem("nickname");
     if (saved) setNickname(saved);
-
     const now = new Date();
     const later = new Date(now.getTime() + 2 * 60 * 60 * 1000);
     setStartsAt(toLocalInput(now));
     setEndsAt(toLocalInput(later));
+  }, []);
 
-    if (navigator.geolocation) {
+  useEffect(() => {
+    if (useGPS) {
+      if (!navigator.geolocation) {
+        setError("このブラウザは位置情報に対応していません");
+        return;
+      }
       navigator.geolocation.getCurrentPosition(
-        (pos) => setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        (pos) => {
+          setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+          setError(null);
+        },
         (err) => setError("位置情報の取得に失敗: " + err.message),
         { enableHighAccuracy: true, timeout: 10000 },
       );
+    } else {
+      const s = DEMO_SPOTS.find((s) => s.id === demoId) ?? DEMO_SPOTS[0];
+      setCoords({ lat: s.lat, lng: s.lng });
+      setError(null);
     }
-  }, []);
+  }, [useGPS, demoId]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -154,9 +169,42 @@ export default function ComposePage() {
           </div>
         </div>
 
-        <p className="text-xs text-white/40">
-          位置: {coords ? `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}` : "取得中…"}
-        </p>
+        <div className="p-3 rounded-2xl bg-white/5 border border-white/10">
+          <div className="text-xs text-white/60 mb-2">📍 投稿する場所</div>
+          <div className="flex flex-wrap gap-2">
+            {DEMO_SPOTS.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => {
+                  setUseGPS(false);
+                  setDemoId(s.id);
+                }}
+                className={`text-xs px-3 py-1.5 rounded-full border ${
+                  !useGPS && demoId === s.id
+                    ? "bg-accent border-accent text-white"
+                    : "border-white/15 text-white/70 hover:bg-white/5"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setUseGPS(true)}
+              className={`text-xs px-3 py-1.5 rounded-full border ${
+                useGPS
+                  ? "bg-accent border-accent text-white"
+                  : "border-white/15 text-white/70 hover:bg-white/5"
+              }`}
+            >
+              📡 現在地（GPS）
+            </button>
+          </div>
+          <p className="mt-2 text-[10px] text-white/40">
+            {coords ? `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}` : "取得中…"}
+          </p>
+        </div>
 
         {error && <p className="text-red-400 text-sm">{error}</p>}
 
