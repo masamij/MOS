@@ -14,7 +14,7 @@ type Props = {
 const ease = Easing.bezier(...EASE_IN_OUT);
 
 /** Centered stage with a slow push-in and a soft blurred exit. */
-export const Scene: React.FC<Props> = ({ length, exit = 0.55, style, children }) => {
+export const Scene: React.FC<Props> = ({ length, exit = 0.42, style, children }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;

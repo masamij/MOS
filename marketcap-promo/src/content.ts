@@ -1,37 +1,36 @@
-// On-screen copy, following the structure of the earlier market-cap explainer slides:
-// 値札 → 計算 → 値札は毎日変わる → 期待 → つまり
+// On-screen copy. Display text carries no 句読点: pauses are expressed with spaces and line breaks.
+// The spoken version of each line (with punctuation for prosody) lives in scripts/narrate.py.
 export const COPY = {
   // 1. 時価総額とは
   defLabel: "時価総額とは",
   defLead: "会社の",
-  defWord: "値札。",
-  defTail: "これだけ。",
-  // 2. 計算
-  calcLabel: "計算は、かんたん。",
-  calcFormula: "株価 × 株の枚数",
-  calcExample: "1,000円 × 100万枚",
-  calcResult: "10億円",
-  // 3. 値札は毎日変わる
-  moveLabel: "値札は、毎日変わる。",
+  defWord: "今の値段",
+  defFormula: "株価 × 株の枚数",
+  // 2. 値段は毎日動く
+  moveLabel: "値段は毎日動く",
   moveMore: "買いたい人が増える",
   moveUp: "↑ 上がる",
   moveLess: "買いたい人が減る",
   moveDown: "↓ 下がる",
-  // 4. なぜ増える？
-  whyLabel: "なぜ、増えるのか。",
-  whyLead: "答えは、",
-  whyWord: "期待。",
-  whyVoice1: "「来年、もっと稼ぐかも。」",
-  whyVoice2: "「この新商品、売れるかも。」",
-  whyTail1: "そのワクワクが、",
-  whyTail2: "そのまま数字になる。",
-  // 5. つまり
-  sumLabel: "つまり、時価総額とは",
-  sum1: "未来への期待を、",
-  sum2: "いまの値段に",
-  sum3: "翻訳したもの。",
-  sumTail1: "今この瞬間の、",
-  sumTail2: "みんなの本気度。",
+  // 3. なぜ増える？
+  whyLabel: "なぜ買いたい人が増えるのか",
+  whyVoice1: "「この会社には こんな未来がある」",
+  whyVoice2: "「きっと これをやってくれる」",
+  whyWord: "期待値",
+  whyTail: "そのまま今の値段になる",
+  // 4. ウォーレン・バフェット
+  buffettLabel: "ウォーレン・バフェット",
+  buffett1: "価格は あなたが払うもの",
+  buffett2: "価値は あなたが得るもの",
+  // 5. 阿部修平（スパークス・グループ）
+  abeLabel: "阿部修平　スパークス・グループ",
+  abe1: "株価と 企業の実態価値",
+  abe2: "そのギャップに投資する",
+  // 6. つまり
+  sumLabel: "つまり時価総額とは",
+  sum1: "未来への期待を",
+  sum2: "今の値段に",
+  sum3: "翻訳したもの",
 };
 
-export const ALL_TEXT = Object.values(COPY).join("") + "0123456789,";
+export const ALL_TEXT = Object.values(COPY).join("");

@@ -56,7 +56,6 @@ const label: CSSProperties = {
   color: COLOR.sub,
   marginBottom: 72,
 };
-const lead: CSSProperties = { fontFamily: JP, fontWeight: 300, fontSize: 50, letterSpacing: "0.1em", color: COLOR.sub };
 const hero: CSSProperties = {
   fontFamily: JP,
   fontWeight: 200,
@@ -81,35 +80,20 @@ const Hairline: React.FC<{ at: number; width: number; style?: CSSProperties }> =
 
 type SceneProps = { length: number; cues: Cues };
 
-/* ---------- 1. 時価総額とは：会社の値札 ---------- */
+/* ---------- 1. 時価総額とは：会社の今の値段 ---------- */
 const Definition: React.FC<SceneProps> = ({ length, cues }) => (
   <Scene length={length}>
     <Reveal {...cue(cues, "defLabel")} style={label} />
     <Reveal {...cue(cues, "defLead")} style={{ ...body, fontSize: 80 }} />
-    <Reveal {...cue(cues, "defWord")} duration={0.85} style={hero} />
-    <Reveal {...cue(cues, "defTail")} style={{ ...lead, marginTop: 36 }} />
-  </Scene>
-);
-
-/* ---------- 2. 計算はかんたん ---------- */
-const Calculation: React.FC<SceneProps> = ({ length, cues }) => (
-  <Scene length={length}>
-    <Reveal {...cue(cues, "calcLabel")} style={label} />
-    <Reveal {...cue(cues, "calcFormula")} style={{ ...body, fontFamily: LATIN, fontWeight: 300 }} />
-    <Hairline at={cues.calcExample.t - 0.35} width={640} style={{ margin: "60px 0" }} />
+    <Reveal {...cue(cues, "defWord")} duration={0.85} style={{ ...hero, fontSize: 190 }} />
     <Reveal
-      {...cue(cues, "calcExample")}
-      style={{ ...small, fontFamily: LATIN, fontSize: 52, fontVariantNumeric: "tabular-nums" }}
-    />
-    <Reveal
-      {...cue(cues, "calcResult")}
-      duration={0.85}
-      style={{ ...hero, fontFamily: LATIN, fontSize: 200, marginTop: 40, letterSpacing: "0.01em" }}
+      {...cue(cues, "defFormula")}
+      style={{ ...small, fontFamily: LATIN, fontSize: 46, marginTop: 40 }}
     />
   </Scene>
 );
 
-/* ---------- 3. 値札は毎日変わる ---------- */
+/* ---------- 2. 値段は毎日動く ---------- */
 const Movement: React.FC<SceneProps> = ({ length, cues }) => {
   const cause: CSSProperties = { ...small, fontSize: 50, color: COLOR.text };
   const effect = (color: string): CSSProperties => ({
@@ -131,41 +115,57 @@ const Movement: React.FC<SceneProps> = ({ length, cues }) => {
   );
 };
 
-/* ---------- 4. なぜ増える？答えは期待 ---------- */
+/* ---------- 3. なぜ増える？期待値が今の値段になる ---------- */
 const Expectation: React.FC<SceneProps> = ({ length, cues }) => {
-  const voice: CSSProperties = { ...small, fontSize: 42, marginTop: 14 };
-  const tail: CSSProperties = { ...body, fontSize: 58 };
+  const voice: CSSProperties = { ...small, fontSize: 44, marginTop: 16 };
   return (
     <Scene length={length}>
       <Reveal {...cue(cues, "whyLabel")} style={label} />
-      <Reveal {...cue(cues, "whyLead")} style={lead} />
-      <Reveal {...cue(cues, "whyWord")} duration={0.85} style={{ ...hero, marginBottom: 40 }} />
       <Reveal {...cue(cues, "whyVoice1")} style={voice} />
       <Reveal {...cue(cues, "whyVoice2")} style={voice} />
-      <Reveal {...cue(cues, "whyTail1")} style={{ ...tail, marginTop: 72 }} />
-      <Reveal {...cue(cues, "whyTail2")} style={{ ...tail, marginTop: 12 }} />
+      <Reveal {...cue(cues, "whyWord")} duration={0.85} style={{ ...hero, fontSize: 210, marginTop: 56 }} />
+      <Reveal {...cue(cues, "whyTail")} style={{ ...body, fontSize: 62, marginTop: 24 }} />
     </Scene>
   );
 };
 
-/* ---------- 5. つまり ---------- */
+/* ---------- 4. ウォーレン・バフェット ---------- */
+const Buffett: React.FC<SceneProps> = ({ length, cues }) => {
+  const line: CSSProperties = { ...body, fontSize: 68 };
+  return (
+    <Scene length={length}>
+      <Reveal {...cue(cues, "buffettLabel")} style={label} />
+      <Reveal {...cue(cues, "buffett1")} style={line} />
+      <Hairline at={cues.buffett2.t - 0.35} width={520} style={{ margin: "56px 0" }} />
+      <Reveal {...cue(cues, "buffett2")} style={line} />
+    </Scene>
+  );
+};
+
+/* ---------- 5. 阿部修平（スパークス・グループ） ---------- */
+const Abe: React.FC<SceneProps> = ({ length, cues }) => (
+  <Scene length={length}>
+    <Reveal {...cue(cues, "abeLabel")} style={label} />
+    <Reveal {...cue(cues, "abe1")} style={{ ...body, fontSize: 60, color: COLOR.sub }} />
+    <Reveal {...cue(cues, "abe2")} style={{ ...body, fontSize: 72, marginTop: 28 }} />
+  </Scene>
+);
+
+/* ---------- 6. つまり ---------- */
 const Summary: React.FC<SceneProps> = ({ length, cues }) => {
-  const line: CSSProperties = { ...body, fontSize: 84, lineHeight: 1.45 };
+  const line: CSSProperties = { ...body, fontSize: 88, lineHeight: 1.45 };
   return (
     <Scene length={length} exit={0.5}>
       <Reveal {...cue(cues, "sumLabel")} style={label} />
       <Reveal {...cue(cues, "sum1")} style={line} />
       <Reveal {...cue(cues, "sum2")} style={line} />
       <Reveal {...cue(cues, "sum3")} style={line} />
-      <Hairline at={cues.sumTail1.t - 0.4} width={600} style={{ margin: "64px 0 56px" }} />
-      <Reveal {...cue(cues, "sumTail1")} style={small} />
-      <Reveal {...cue(cues, "sumTail2")} duration={0.8} style={{ ...body, fontSize: 72, marginTop: 20 }} />
     </Scene>
   );
 };
 
 /* ---------- Timeline: scene starts / lengths come from the narration cue sheet ---------- */
-const SCENES = [Definition, Calculation, Movement, Expectation, Summary];
+const SCENES = [Definition, Movement, Expectation, Buffett, Abe, Summary];
 
 export const MarketCapPromo: React.FC = () => {
   useFonts();
