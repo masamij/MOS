@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Render the promo as a PNG sequence with Remotion, then encode it with ffmpeg
-# at an exact 24000/1001 (23.976) fps so the MP4 timestamps are clean.
+# at an exact 24000/1001 (23.976) fps so the MP4 timestamps are clean, and mux the narration.
+# Regenerate the narration first if the script changed: python scripts/narrate.py
 #   BROWSER=/path/to/chrome ./scripts/render.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -14,11 +15,12 @@ rm -rf "$FRAMES"
 npx remotion render MarketCapPromo "$FRAMES" --sequence --image-format=png "${BROWSER_FLAG[@]}"
 
 # A whisper of temporal grain dithers the dark gradient (no banding) and reads as film.
-ffmpeg -y -loglevel error -framerate 24000/1001 -i "$FRAMES/element-%03d.png" \
+ffmpeg -y -loglevel error -framerate 24000/1001 -i "$FRAMES/element-%03d.png" -i public/narration.wav \
+  -map 0:v -map 1:a -af apad -shortest -c:a aac -b:a 192k -ar 48000 \
   -vf "noise=alls=1:allf=t,format=yuv420p" \
   -c:v libx264 -preset slow -crf 18 -tune film -profile:v high -level 4.1 \
   -color_primaries bt709 -color_trc bt709 -colorspace bt709 \
   -r 24000/1001 -video_track_timescale 24000 -movflags +faststart "$OUT"
 
 if [[ -z "${KEEP_FRAMES:-}" ]]; then rm -rf "$FRAMES"; fi
-ffprobe -v error -show_entries stream=width,height,r_frame_rate,avg_frame_rate,nb_frames -show_entries format=duration "$OUT"
+ffprobe -v error -show_entries stream=codec_type,width,height,r_frame_rate,avg_frame_rate,nb_frames,sample_rate -show_entries format=duration "$OUT"

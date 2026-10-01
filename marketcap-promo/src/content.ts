@@ -18,7 +18,7 @@ export const COPY = {
   moveLess: "買いたい人が減る",
   moveDown: "↓ 下がる",
   // 4. なぜ増える？
-  whyLabel: "では、なぜ増えるのか。",
+  whyLabel: "なぜ、増えるのか。",
   whyLead: "答えは、",
   whyWord: "期待。",
   whyVoice1: "「来年、もっと稼ぐかも。」",
