@@ -1,31 +1,37 @@
-// On-screen copy. Milestones are the dates each market-cap threshold was first reached:
-// Apple $1T (2018-08-02), $2T (2020-08-19), $3T intraday (2022-01-03);
-// NVIDIA $4T (2025-07-09), $5T (2025-10-29).
-export const MILESTONES = [
-  { date: "2018.8", value: 1, company: "Apple" },
-  { date: "2020.8", value: 2, company: "Apple" },
-  { date: "2022.1", value: 3, company: "Apple" },
-  { date: "2025.7", value: 4, company: "NVIDIA" },
-  { date: "2025.10", value: 5, company: "NVIDIA" },
-] as const;
-
+// On-screen copy, following the structure of the earlier market-cap explainer slides:
+// 値札 → 計算 → 値札は毎日変わる → 期待 → つまり
 export const COPY = {
-  title: "時価総額。",
-  titleSub: "企業の価値を、ひとつの数字で。",
-  price: "株価",
-  times: "×",
-  shares: "発行済株式数",
-  result: "時価総額",
-  historyLabel: "時価総額の節目",
-  unit: "兆ドル",
-  messageLead: "時価総額とは、",
-  message1: "未来への、",
-  message2: "期待の大きさ。",
-  closing: "数字で、世界を読む。",
-  cta: "フォローして、続きを。",
+  // 1. 時価総額とは
+  defLabel: "時価総額とは",
+  defLead: "会社の",
+  defWord: "値札。",
+  defTail: "これだけ。",
+  // 2. 計算
+  calcLabel: "計算は、かんたん。",
+  calcFormula: "株価 × 株の枚数",
+  calcExample: "1,000円 × 100万枚",
+  calcResult: "10億円",
+  // 3. 値札は毎日変わる
+  moveLabel: "値札は、毎日変わる。",
+  moveMore: "買いたい人が増える",
+  moveUp: "↑ 上がる",
+  moveLess: "買いたい人が減る",
+  moveDown: "↓ 下がる",
+  // 4. なぜ増える？
+  whyLabel: "では、なぜ増えるのか。",
+  whyLead: "答えは、",
+  whyWord: "期待。",
+  whyVoice1: "「来年、もっと稼ぐかも。」",
+  whyVoice2: "「この新商品、売れるかも。」",
+  whyTail1: "そのワクワクが、",
+  whyTail2: "そのまま数字になる。",
+  // 5. つまり
+  sumLabel: "つまり、時価総額とは",
+  sum1: "未来への期待を、",
+  sum2: "いまの値段に",
+  sum3: "翻訳したもの。",
+  sumTail1: "今この瞬間の、",
+  sumTail2: "みんなの本気度。",
 };
 
-export const ALL_TEXT =
-  Object.values(COPY).join("") +
-  MILESTONES.map((m) => `${m.date}${m.value}${m.company}`).join("") +
-  "0123456789.";
+export const ALL_TEXT = Object.values(COPY).join("") + "0123456789,";

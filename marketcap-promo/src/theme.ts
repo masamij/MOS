@@ -6,6 +6,9 @@ export const COLOR = {
   text: "#f5f5f7",
   sub: "#86868b",
   hairline: "rgba(245, 245, 247, 0.22)",
+  // muted keynote-style accents, used only for the up / down arrows
+  up: "#5fd08a",
+  down: "#ff6b61",
 };
 
 // Apple-like ease-out: fast start, long gentle settle
